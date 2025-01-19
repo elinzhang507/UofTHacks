@@ -10,11 +10,7 @@ const Interview = () => {
   const [loading, setLoading] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
   const [recording, setRecording] = useState(false);
-<<<<<<< HEAD
   const [timeRemaining, setTimeRemaining] = useState(120); // 2 minutes in seconds
-=======
-  const [timeRemaining, setTimeRemaining] = useState(900); // 15 minutes in seconds
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const webcamRef = useRef(null);
@@ -22,11 +18,6 @@ const Interview = () => {
   const navigate = useNavigate();
   const timerRef = useRef(null);
 
-<<<<<<< HEAD
-=======
-  const [videoUrl, setVideoUrl] = useState(null); // State for video download URL
-
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
   useEffect(() => {
     const storedQuestions = localStorage.getItem("generatedQuestions");
     if(storedQuestions){
@@ -56,13 +47,6 @@ const Interview = () => {
       mediaRecorderRef.current.onstop = () => {
         const blob = new Blob(recordedChunks, { type: "video/webm" });
         setVideoFile(blob);
-<<<<<<< HEAD
-=======
-
-        // Create a download URL for the recorded video
-        const videoUrl = URL.createObjectURL(blob);
-        setVideoUrl(videoUrl);  // Update the state with the video URL
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
       };
 
       mediaRecorderRef.current.start();
@@ -97,15 +81,9 @@ const Interview = () => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-<<<<<<< HEAD
       setTimeRemaining(120);
       setRecordedChunks([]);
       setVideoFile(null);
-=======
-      setRecordedChunks([]); // Reset video data for the next question
-      setVideoFile(null);
-      setVideoUrl(null); // Reset the download link for the next question
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
     }
   };
 
@@ -139,7 +117,6 @@ const Interview = () => {
 
     setLoading(true);
 
-<<<<<<< HEAD
     const promptText = "Analyze the following job description and evaluate the interviewee's answer. Provide detailed feedback on the following categories with a score out of 10 for each subcategory:" + 
     " 1. **Presentation Skills**: " + 
     "- **Eye Contact**: Evaluate the interviewee's eye contact during the answer." + 
@@ -154,22 +131,6 @@ const Interview = () => {
     " provide an overall score for the interviewee's performance based on the categories above.";
 
 
-=======
-    const promptText = "Analyze the following job description and evaluate the interviewee's answer. Use Personal Pronouns. Provide detailed feedback on the following categories with a score out of 10 for each subcategory:" + 
-    "For each subsection please begin a new line and do not attempt to bold by placing asterix around the titles" +
-" 1. Presentation Skills: " + 
-"- Eye Contact: Evaluate the interviewee's eye contact during the answer." + 
-"- Pacing: Assess the pacing of the response (whether it's too fast, too slow, or just right)." + 
-"- Clarity: Rate how clearly the interviewee expresses their ideas." + 
-"- Tone: Rate the tone used during the interview (whether it is appropriate, engaging, and professional)." + 
-" 2. Answer Quality: " + 
-"- Sentence Structure: Evaluate the grammatical correctness and coherence of the answer." + 
-"- Relation to Job Description: Assess how well the answer aligns with the job description and its requirements." + 
-"- Professionalism: Rate the level of professionalism in the interviewee’s language and demeanor." + 
-" Provide a score out of 10 for each subcategory, along with qualitative feedback to help improve performance. At the end," +
-"" +
-" provide an overall score for the interviewee's performance based on the categories above.";
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
     const formData = new FormData();
     formData.append('file', videoFile);
     formData.append(
@@ -181,11 +142,7 @@ const Interview = () => {
     try {
       const response = await axios.post('https://api.edenai.run/v2/video/question_answer', formData, {
         headers: {
-<<<<<<< HEAD
           Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiODdiYzA3MTQtNWVkMS00OTk2LTkyOTMtYjY3MmRjYWZlYmVjIiwidHlwZSI6ImFwaV90b2tlbiJ9.DS_e4JhpwHwiqPw1rCHnLW20Ri4Krlne8fXVylFV-vE', // Use your valid API key
-=======
-          Authorization: 'Bearer YOUR_API_KEY', // Use your valid API key
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
         },
       });
 
@@ -215,7 +172,6 @@ const Interview = () => {
     navigate('../feedback');
   };
 
-<<<<<<< HEAD
   // Allow users to download the video file once the recording is done
   const handleDownload = () => {
     if (!videoFile) return;
@@ -228,8 +184,6 @@ const Interview = () => {
     URL.revokeObjectURL(url);  // Clean up URL object after download
   };
 
-=======
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
   return (
     <div className="interview-container">
       <h1 className="header">Interview Analysis</h1>
@@ -244,7 +198,6 @@ const Interview = () => {
           />
           <p>Time Remaining: {Math.floor(timeRemaining / 60)}:{String(timeRemaining % 60).padStart(2, '0')}</p>
 
-<<<<<<< HEAD
           {!recording ? (
             <button onClick={startRecording} disabled={loading}>
               Start Recording
@@ -269,50 +222,12 @@ const Interview = () => {
 
           {videoFile && !loading && !recording && (
             <button onClick={handleDownload}>Download Video</button>
-=======
-          <div className="video-controls">
-            {!recording ? (
-              <button onClick={startRecording} disabled={loading}>
-                Start Recording
-              </button>
-            ) : (
-              <button onClick={stopRecording} disabled={loading}>
-                Stop Recording
-              </button>
-            )}
-
-            <input type="file" accept="video/*" onChange={handleFileChange} disabled={loading} />
-            <button onClick={handleSubmit} disabled={!videoFile || loading}>
-              {loading ? 'Analyzing...' : 'Submit Video'}
-            </button>
-          </div>
-
-          <div className="question-controls">
-            {currentQuestionIndex < questions.length - 1 && (
-              <button onClick={handleNextQuestion} disabled={loading}>
-                Next Question
-              </button>
-            )}
-          </div>
-
-          {/* Display the download link once the video is available */}
-          {videoUrl && (
-            <div className="download-container">
-              <a href={videoUrl} download="interview-video.webm">
-                Download Video
-              </a>
-            </div>
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
           )}
 
           {feedback ? (
             <div className="feedback-container">
               <h2>Feedback</h2>
-<<<<<<< HEAD
-              <pre>{feedback}</pre>
-=======
-              <p>Your feedback is ready.</p>
->>>>>>> 876a91d4da2afc1a38b9ad790018c01989928d33
+              {/* <pre>{feedback}</pre> */}
               <button onClick={goToFeedback}>Go to Feedback</button>
             </div>
           ) : (
