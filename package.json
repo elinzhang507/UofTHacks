@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
